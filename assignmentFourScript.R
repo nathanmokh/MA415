@@ -34,3 +34,40 @@ tibble::enframe(annoying[1:3,])
 #Frames data into name/value categories, would use when we want to easily access/summarize data
 #6
 #The print.dataFrame function, n_extra allows you to choose how many extra columns to print
+
+#12.6.1
+who1 <- who %>%
+  gather(new_sp_m014:newrel_f65, key = "key", value = "cases", na.rm = TRUE)
+who1
+who1 %>%
+  count(key)
+who2 <- who1 %>% 
+  mutate(key = stringr::str_replace(key, "newrel", "new_rel"))
+who2
+
+who3 <- who2 %>% 
+  separate(key, c("new", "type", "sexage"), sep = "_")
+who3
+
+who3 %>% 
+  count(new)
+
+who4 <- who3 %>% 
+  select(-new, -iso2, -iso3)
+
+who5 <- who4 %>% 
+  separate(sexage, c("sex", "age"), sep = 1)
+who5
+
+#1
+#I think it's reasonable, but it could have some bad effects depending on what you want
+#an NA value can prevent certain computations from being made while having a zero
+#may result in some inaccurate computations like means
+
+#2
+#If you neglect the step we won't be able to separate into var, sexage, and new
+
+#3
+
+#4
+  
