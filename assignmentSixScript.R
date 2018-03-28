@@ -2,7 +2,7 @@ library(ggmap)
 library(tidyverse)
 #Add Route from beach to pub
 map3 <- get_map(location = "Bude", zoom= 14)
-df <- data.frame(location = c('Crooklets beach', 'Summerleaze beach', 'The Barrel at Bude'), color = 'blue', stringsAsFactors = FALSE)
+df <- data.frame(location = c('Crooklets beach', 'Summerleaze beach', 'The Barrel at Bude', 'Bude and North Cornwall Golf Club','The Castle Bude'), color = 'blue', stringsAsFactors = FALSE)
 #May take a couple tries, isn't stable for whatever reason but it works
 locs_geo <- geocode(df$location)
 df <- cbind(df, locs_geo)
