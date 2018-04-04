@@ -1,0 +1,84 @@
+---
+title: "Mapping Bude"
+author: "Nathan Mokhtarzadeh"
+date: "March 28, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include = FALSE}
+library(ggmap)
+library(jpeg)
+library(tidyverse)
+
+```
+
+## Bude
+
+Bude is a small town and a nice vacation spot in Western England, here's a portion of it on the map:
+
+```{r, include = FALSE}
+gc <- geocode("bude")
+map <- get_map(gc, zoom=14)
+ggmap(map) +
+  geom_point(
+    aes(x = lon, y = lat),
+    data = bd, color = "red", size = 5
+  )
+```
+
+## Bude Roadmap
+
+Here is the Bude roadmap:
+
+```{r, echo=FALSE}
+roadmap <- get_map(location=gc, maptype = "roadmap",zoom= 14)
+ggmap(roadmap)+
+  geom_point(
+    aes(x = lon, y = lat),
+    data = gc, color = "red", size = 5
+  )
+```
+
+Here is the watercolor map:
+
+```{r}
+mapWater <- get_map(location = 'Bude', zoom = 14, maptype = 'watercolor')
+ggmap(mapWater)
+```
+##Some Nice Cricket Spots
+
+```{r}
+map3 <- get_map(location = "Bude", zoom= 14)
+df <- data.frame(location = c('Crooklets beach', 'Summerleaze beach', 'The Barrel at Bude'), color = 'blue', stringsAsFactors = FALSE)
+#May take a couple tries, isn't stable for whatever reason but it works
+locs_geo <- geocode(df$location)
+df <- cbind(df, locs_geo)
+ggmap(map3) + geom_point(data = df, aes(x = lon, y = lat))
+```
+![Bude](https://www.cornwalls.co.uk/sites/default/files/photos/bude_canal.jpg)
+
+
+![Summerleaze Beach](https://www.natureflip.com/sites/default/files/photo//bude-summerleaze-beach-summerleaze-beach-at-bude-cornwall.jpg)
+![The Barrel at Bude](http://www.bude-today.co.uk/images/news/2017/Micro-pub.jpg)
+
+
+
+
+##Route From Summerleaze Beach to The Barrel at Bude
+```{r}
+from <- "Summerleaze beach"
+to <- "The Barrel at Bude"
+route_df <- route(from, to, structure = "route")
+#ggmap(mapWater) + geom_point(data = df, aes(x = lon, y = lat))
+ggmap(mapWater) +  
+  geom_path(
+    aes(x = lon, y = lat), colour = "red", size = 1.5,
+    data = route_df, lineend = "round"
+  ) + geom_point(data = df, aes(x = lon, y = lat))
+
+```
+
