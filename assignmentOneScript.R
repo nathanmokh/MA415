@@ -70,4 +70,6 @@ sort(xVec)
 #h
 ans7h <- c(yVec[1], yVec[4], yVec[7], yVec[10], yVec[13])
 #Problem 8
-
+x <- seq(2, 38, by=2)
+y <- seq(3, 39, by=2)
+1 + sum(cumprod(x / y))
